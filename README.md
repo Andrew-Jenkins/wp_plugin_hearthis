@@ -1,17 +1,14 @@
-# wp_plugin_hearthis
-
-Overview
-==========
+# Overview
 
 This is a Wordpress Plugin which allows you to easily integrate a player widget for a track, set, playlist or from hearthis.at[1] into your Wordpress Blog by using Wordpress Shortcodes.
 
 Requirements
------------------------
+==========
 
  * Wordpress Blog[2] > min version 3.1.0
  * httpful[3][4]
 
-== Description ==
+Description
 -----------------
 
 Use it in your blog post or pages by adding this Shortcode to your content:
@@ -25,29 +22,29 @@ player accepts the following parameter options:
 * [b]theme[/b]  = you can choose between these 2 options "transparent" (default) or "transparent_black"
 
 
-== Examples ==
+Examples
 --------------
 
-# [hearthis]https://hearthis.at/shawne/shawne-pornbass-12-06042013-2300-0200-uhr/[/hearthis]
+`[hearthis]https://hearthis.at/shawne/shawne-pornbass-12-06042013-2300-0200-uhr/[/hearthis]`
 Embed a single track without params
 
 `[hearthis]https://hearthis.at/crecs/set/tbase-feat-charlotte-haining-oscar-michael-unspoken-words-ep/[/hearthis]`
 Embed a playlist or set without params
 
-# `[hearthis]http://hearthis.at/djforce/[/hearthis]`
+`[hearthis]http://hearthis.at/djforce/[/hearthis]`
 Embed a user without params
 
-# [hearthis params="hcolor=33e040&theme=transparent_black"]https://hearthis.at/shawne/shawne-stadtfest-chemnitz-31082013/[/hearthis]`
+`[hearthis params="hcolor=33e040&theme=transparent_black"]https://hearthis.at/shawne/shawne-stadtfest-chemnitz-31082013/[/hearthis]`
 Embeds a track with a green highlight color and black theme.
 
-# [hearthis width="250"]https://hearthis.at/djforce/baesser-forcesicht-dnbmix/[/hearthis]`
+`[hearthis width="250"]https://hearthis.at/djforce/baesser-forcesicht-dnbmix/[/hearthis]`
 Embeds a track player with 250px width.
 
-# `[hearthis height="400"]https://hearthis.at/set/51-7/[/hearthis]`
+`[hearthis height="400"]https://hearthis.at/set/51-7/[/hearthis]`
 Embeds a playlist or set with 400px height
 
 
-== Installation ==
+Installation
 ------------------
 
 Download the Plugin and extract the content. You should see a folder
@@ -58,13 +55,13 @@ After you done this go to your Wordpress Backend and activate the Plugin.
 Now you are ready to go and can insert the hearthis Shortcodes.
 
 
-== Frequently Asked Questions ==
+Frequently Asked Questions
 --------------------------------
 
 I have to write this :)
 
 
-== Screenshots ==
+Screenshots
 -----------------
 
 1. This is how the player looks. btw: this follows at next
@@ -84,5 +81,4 @@ thx and please support hearthis.at[1]
 [2]: https://de.wordpress.org/
 [3]: http://phphttpclient.com/
 [4]: https://github.com/nategood/httpful
-[5]: 
 
