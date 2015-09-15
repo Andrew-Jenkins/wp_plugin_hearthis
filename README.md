@@ -48,7 +48,7 @@ Installation
 ------------------
 
 Download the Plugin and extract the content. You should see a folder
-named hearthis. Move or upload this folder to your Wordpress installation
+named hearthisat. Move or upload this folder to your Wordpress installation
 plugins directory. By default the wordpress plugin folder is under /wp-content/plugins/. 
 
 After you done this go to your Wordpress Backend and activate the Plugin. 
@@ -64,7 +64,13 @@ I have to write this :)
 Screenshots
 -----------------
 
-1. This is how the player looks. btw: this follows at next
+This is how the player widget will looks like:  
+
+** with a single Track  **
+![Track view ](/hearthisat/screenshot_track.png "the hearthis widget with a single track")  
+
+** with a playlist or set **  
+![playlist view](/hearthisat/screenshot_playlist.png "the widget with a playlist widget")  
 
 Changelog
 ---------------
