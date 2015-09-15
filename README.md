@@ -5,8 +5,8 @@ This is a Wordpress Plugin which allows you to easily integrate a player widget 
 Requirements
 ==========
 
- * Wordpress Blog[2] > min version 3.1.0
- * httpful[3][4]
+ * Wordpress Blog in version 3.1.0 [2] 
+ * httpful [3] [4]
 
 Description
 -----------------
@@ -18,30 +18,30 @@ The Plugin also supports optional parameters. By now these are width, height and
 The "params" parameter will pass the given options on to the player widget. The hearthis 
 player accepts the following parameter options:
 
-* [b]hcolor[/b] = (hex color codes) will show the play button, waveform and selections in this color
+* [b]hcolor = (hex color codes) will show the play button, waveform and selections in this color
 * [b]theme[/b]  = you can choose between these 2 options "transparent" (default) or "transparent_black"
 
 
 Examples
 --------------
 
+Embed a single track without params:
 `[hearthis]https://hearthis.at/shawne/shawne-pornbass-12-06042013-2300-0200-uhr/[/hearthis]`
-Embed a single track without params
 
+Embed a playlist or set without params:
 `[hearthis]https://hearthis.at/crecs/set/tbase-feat-charlotte-haining-oscar-michael-unspoken-words-ep/[/hearthis]`
-Embed a playlist or set without params
 
+Embed a user without params:
 `[hearthis]http://hearthis.at/djforce/[/hearthis]`
-Embed a user without params
 
+Embeds a track with a green highlight color and black theme:
 `[hearthis params="hcolor=33e040&theme=transparent_black"]https://hearthis.at/shawne/shawne-stadtfest-chemnitz-31082013/[/hearthis]`
-Embeds a track with a green highlight color and black theme.
 
+Embeds a track player with 250px width:
 `[hearthis width="250"]https://hearthis.at/djforce/baesser-forcesicht-dnbmix/[/hearthis]`
-Embeds a track player with 250px width.
 
+Embeds a playlist or set with 400px height:
 `[hearthis height="400"]https://hearthis.at/set/51-7/[/hearthis]`
-Embeds a playlist or set with 400px height
 
 
 Installation
