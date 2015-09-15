@@ -1,18 +1,18 @@
 # Overview
 
-This is a Wordpress Plugin which allows you to easily integrate a player widget for a track, set, playlist or from hearthis.at[1] into your Wordpress Blog by using Wordpress Shortcodes.
+This is a Wordpress Plugin which allows you to easily integrate a player widget for a track, set, playlist or from [hearthis.at][1] into your Wordpress Blog by using Wordpress Shortcodes.
 
 Requirements
 ==========
 
- * Wordpress[2] Blog in version 3.1.0  
- * httpful [3] [4]
+ * [Wordpress][2] Blog in version 3.1.0  
+ * [httpful][3] or [php http client][4]
 
 Description
 -----------------
 
-Use it in your blog post or pages by adding this Shortcode to your content:
-`[hearthis]http://hearthis.at/LINK_TO_TRACK_SET_OR_ARTIST/[/hearthis]`.
+Use it in your blog post or pages by adding this Shortcode to your content:  
+      `[hearthis]http://hearthis.at/LINK_TO_TRACK_SET_OR_ARTIST/[/hearthis]`.
 
 The Plugin also supports optional parameters. By now these are width, height and params.
 The "params" parameter will pass the given options on to the player widget. The hearthis 
@@ -25,23 +25,23 @@ player accepts the following parameter options:
 Examples
 --------------
 
-Embed a single track without params.
-`[hearthis]https://hearthis.at/shawne/shawne-pornbass-12-06042013-2300-0200-uhr/[/hearthis]`
+Embed a single track without params.  
+      `[hearthis]https://hearthis.at/shawne/shawne-pornbass-12-06042013-2300-0200-uhr/[/hearthis]`
 
-Embed a playlist or set without params.
-`[hearthis]https://hearthis.at/crecs/set/tbase-feat-charlotte-haining-oscar-michael-unspoken-words-ep/[/hearthis]`
+Embed a playlist or set without params.  
+      `[hearthis]https://hearthis.at/crecs/set/tbase-feat-charlotte-haining-oscar-michael-unspoken-words-ep/[/hearthis]`
 
-Embed a user without params.
-`[hearthis]http://hearthis.at/djforce/[/hearthis]`
+Embed a user without params.  
+      `[hearthis]http://hearthis.at/djforce/[/hearthis]`
 
-Embeds a track with a green highlight color and black theme.
-`[hearthis params="hcolor=33e040&theme=transparent_black"]https://hearthis.at/shawne/shawne-stadtfest-chemnitz-31082013/[/hearthis]`
+Embeds a track with a green highlight color and black theme.  
+      `[hearthis params="hcolor=33e040&theme=transparent_black"]https://hearthis.at/shawne/shawne-stadtfest-chemnitz-31082013/[/hearthis]`
 
-Embeds a track player with 250px width.
-`[hearthis width="250"]https://hearthis.at/djforce/baesser-forcesicht-dnbmix/[/hearthis]`
-
-Embeds a playlist or set with 400px height.
-`[hearthis height="400"]https://hearthis.at/set/51-7/[/hearthis]`
+Embeds a track player with 250px width.  
+      `[hearthis width="250"]https://hearthis.at/djforce/baesser-forcesicht-dnbmix/[/hearthis]`
+      
+Embeds a playlist or set with 400px height.  
+      `[hearthis height="400"]https://hearthis.at/set/51-7/[/hearthis]`
 
 
 Installation
@@ -75,7 +75,7 @@ the plugin was originaly written by Benedikt Groß the founder of hearthis.at,
 I rewrite this plugin but it is still in development, so please wait for the stable 
 release which will come soon.
 
-thx and please support hearthis.at
+thx and support [hearthis.at][1]
 
 [1]: https://hearthis.at/
 [2]: https://de.wordpress.org/
