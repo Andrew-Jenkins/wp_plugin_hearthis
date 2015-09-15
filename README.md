@@ -5,8 +5,8 @@ This is a Wordpress Plugin which allows you to easily integrate a player widget 
 Requirements
 ==========
 
- * [Wordpress][2] Blog in version 3.1.0  
- * [httpful][3] or [php http client][4]
+ * [Wordpress][2], version >= 3.1.0  
+ * [httpful][3] / [php http client][4]
 
 Description
 -----------------
@@ -19,7 +19,7 @@ The "params" parameter will pass the given options on to the player widget. The 
 player accepts the following parameter options:
 
 * hcolor = (hex color codes) will show the play button, waveform and selections in this color
-* theme  = you can choose between these 2 options "transparent" (default) or "transparent_black"
+* theme  = you can choose between these 2 options __transparent__ (default) or __transparent_black__
 
 
 Examples
@@ -69,16 +69,16 @@ Screenshots
 Changelog
 ---------------
 
-latest version is 0.6.2
+**latest version is 0.6.2**
 
 the plugin was originaly written by Benedikt Groß the founder of hearthis.at,
 I rewrite this plugin but it is still in development, so please wait for the stable 
 release which will come soon.
 
-thx and support [hearthis.at][1]
+**thx and support [hearthis.at][1]**
 
 [1]: https://hearthis.at/
 [2]: https://de.wordpress.org/
-[3]: http://phphttpclient.com/
-[4]: https://github.com/nategood/httpful
+[3]: https://github.com/nategood/httpful
+[4]: http://phphttpclient.com/
 
