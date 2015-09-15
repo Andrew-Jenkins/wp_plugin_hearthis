@@ -66,10 +66,10 @@ Screenshots
 
 This is how the player widget will looks like:  
 
-** with a single Track  **
-![Track view ](/hearthisat/screenshot_track.png "the hearthis widget with a single track")  
+with a single Track  
+![Track view ](/hearthisat/screenshot_track.png "the hearthis widget with a single track")
 
-** with a playlist or set **  
+with a playlist or set  
 ![playlist view](/hearthisat/screenshot_playlist.png "the widget with a playlist widget")  
 
 Changelog
