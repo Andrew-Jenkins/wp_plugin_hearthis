@@ -32,7 +32,7 @@ player accepts the following parameter options:
 * waveform         =  hide the waveform (values not set, 1 or 0)  
 * background       =  shows the background if set (values not set, 1 or 0, if is 1 the height is 400px)  
 * digitized_space      =  size of the spaces between the waveform blocks (integer, steps from 1 to 10, works only if style is set to 2)  
-* digitized_size       =  size waveform blocks (integer, steps from 1 to 10, works only if style is set to 2)  
+* liststyle       =  only aviable on playlists and will also works only with 'single' as value 
       
 
 Examples
@@ -44,17 +44,20 @@ Embed a single track without params.
 Embed a playlist or set without params.  
       `[hearthis]https://hearthis.at/crecs/set/tbase-feat-charlotte-haining-oscar-michael-unspoken-words-ep/[/hearthis]`
 
-Embed a user without params.  
-      `[hearthis]http://hearthis.at/djforce/[/hearthis]`
+Embed a user without color params and autostart.  
+      `[hearthis color="#ff5c24" color2="#33fd11" autostart="1"]http://hearthis.at/djforce/[/hearthis]`
 
 Embeds a track with a black theme and a bachground image (if set).  
       `[hearthis theme="transparent_black" background="1" ]https://hearthis.at/djforce/baesser-forcesicht-dnbmix/[hearthis]`
 
 Embeds a track player with 300px width and a green button color.  
-      `[hearthis width="300" color="#33fd11" ]https://hearthis.at/crec/maverick-krl-c-recordings-guestmix/[/hearthis]`
+      `[hearthis width="300" color="#33fd11"]https://hearthis.at/crec/maverick-krl-c-recordings-guestmix/[/hearthis]`
       
 Embeds a playlist or set with 400px height.  
       `[hearthis height="400"]https://hearthis.at/set/51-7/[/hearthis]`
+
+I embeds a hook so if you have a playlist and do set the liststyle="single" option, it will parse all tracks from this set as single tracks.  
+      `[hearthis liststyle="single"]https://hearthis.at/crecs/set/tbase-feat-charlotte-haining-oscar-michael-unspoken-words-ep/[/hearthis]`
 
 
 Installation
@@ -88,11 +91,18 @@ with a playlist or set
 Changelog
 ---------------
 
-**latest version is 0.6.2**
 
-the plugin was originaly written by Benedikt Groß the founder of hearthis.at,
-I rewrite this plugin but it is still in development, so please wait for the stable 
-release which will come soon.
+
+**latest version is 0.6.3**
+
+**version 0.6.3**
+
++ add a shortcode option as a hook to parse all tracks from a playlist as single tracks 
+
+**version 0.6.2**
+
++ the plugin was originaly written by Benedikt Groß the founder of hearthis.at and this release fixes old or wrong options and bug so that you can use it with the latest wordpress version and you will have the full controll of all original hearthis paramsn 
+
 
 **thx and support [hearthis.at][1]**
 

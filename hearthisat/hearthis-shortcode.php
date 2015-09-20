@@ -3,7 +3,7 @@
 Plugin Name: hearthis.at
 Plugin URI: http://wordpress.org/extend/plugins/hearthis-shortcode/
 Description: Converts hearthis urls with Wordpress Shortcuts from within your content to a hearthis.at widget. Example: [hearthis]http://hearthis.at/crecs/shawne-stadtfest-chemnitz-31082013/[/hearthis]
-Version: 0.6.2
+Version: 0.6.3
 Author: Andreas Jenke | SIEs
 Author URI: http://so-ist.es
 License: GPLv2
@@ -17,7 +17,7 @@ include(__DIR__.'/httpful.phar');
  * @link    hearthis.at
  * @category  Plugin URI: http://wordpress.org/extend/plugins/hearthis-shortcode/
  * @internal  Converts hearthis WordPress shortcodes to a hearthis.at widget. Example: [hearthis]http://hearthis.at/shawne/shawne-stadtfest-chemnitz-31082013/[/hearthis]
- * @version:  0.6.2 
+ * @version:  0.6.3 
  * @author    Benedikt Gro&szlig; <contact@hearthis.com> | URL http://hearthis.at | upgraded by Andreas Jenke | SIEs 
  * @license:  GPLv2
 */
@@ -103,7 +103,6 @@ include(__DIR__.'/httpful.phar');
       $options['height'] = 400;
     }
 
-    // The "url" option is required
     if (!isset($options['url'])) 
       return '';
     else 
@@ -121,7 +120,6 @@ include(__DIR__.'/httpful.phar');
   {
     $opts = array(
       'width' => hearthis_get_option('player_width'),
-        // 'height' => (hearthis_get_option('player_height') !== '' ) ? hearthis_get_option('player_height') : 145,
       'color' => hearthis_get_option('hearthis_color'),
       'hcolor' => hearthis_get_option('hearthis_color2'),
       'cover' => hearthis_get_option('cover'),
@@ -134,6 +132,7 @@ include(__DIR__.'/httpful.phar');
       'block_size' => hearthis_get_option('digitized_size'),
       'theme'  => hearthis_get_option('theme'),
       'style'  => hearthis_get_option('style'),
+      'liststyle'  => (hearthis_get_option('liststyle') === 'single') ?  'single' : NULL,
     );
     foreach ($opts as $k => $value) 
       $opts[$k] = $value;
@@ -150,11 +149,36 @@ include(__DIR__.'/httpful.phar');
   {
     $url = 'https://hearthis.at';
 
-    if($info['type'] === 'set')
+    if($info['type'] === 'set' && !isset($options['liststyle']) )
+    {
       $url .= esc_attr($info['player_url']).'embed/?hcolor='.hearthis_clear_color(hearthis_get_option('color2')).'&color='.hearthis_clear_color(hearthis_get_option('color'));
+  
+    }
+    if($info['type'] === 'set' && isset($options['liststyle']) &&  $options['liststyle'] === 'single' )
+    {  
+      
+      foreach ($info['setlist'] as $tune) 
+      {
+        # code...
+          $href = 'https://hearthis.at/embed/'.esc_attr($tune['tracks']).'/'.hearthis_get_option('theme').'/?';
+          $href .='hcolor='.hearthis_clear_color(hearthis_get_option('color2')).
+          '&color='.hearthis_clear_color(hearthis_get_option('color')).
+          '&style='.hearthis_get_option('style'). 
+          '&block_space='.hearthis_get_option('digitized_space').
+          '&block_size='.hearthis_get_option('digitized_size').
+          '&background='.hearthis_get_option('background',get_option('hearthis_background', 0)).
+          '&waveform='.hearthis_get_option('waveform').
+          '&cover='.hearthis_get_option('cover').
+          '&autoplay='.hearthis_get_option('autoplay');
+          $u[] = $href;
+      }
+      $url = $u;
+  
+    } 
+
     if($info['type'] === 'track')
     {
-      $url .= '/embed/'.esc_attr($info['track_id']).'/'.hearthis_get_option('theme').'/?';
+      $url = 'https://hearthis.at/embed/'.esc_attr($info['track_id']).'/'.hearthis_get_option('theme').'/?';
       $url .='hcolor='.hearthis_clear_color(hearthis_get_option('color2')).
       '&color='.hearthis_clear_color(hearthis_get_option('color')).
       '&style='.hearthis_get_option('style'). 
@@ -302,32 +326,24 @@ include(__DIR__.'/httpful.phar');
   {
     $url = '';
     $urlSource = parse_url($options['url']);
-    $infos = array();
-
-    if(isset($urlSource['path']))
-    {
-      $infos = hearthis_bypass_set_url($options['url']);
-      $url = hearthis_iframe_url($options,$infos);
-    }
 
     $width = $options['width'];
     $height = $options['height'];
     $return = array();
+    
+  $infos = hearthis_bypass_set_url($options['url']);   
+  $url = hearthis_iframe_url($options,$infos);
 
-    if(isset($urlSource['path']) && $options['type'] === 'set')
-    {
-
-      /* foreach ($setlist->body as $p => $v) 
-       {
-        // @todo search in $v->title || $setlist->body->title;
-
-        $url = '//hearthis.at/embed/' . $v->id . '/' . $options['params']['theme'] . '/?style=' . $options['params']['style'] . '' . (!empty($options['params']['style_size']) ? '&block_size=' . $options['params']['style_size'] : '') . '' . (!empty($options['params']['style_space']) ? '&block_space=' . $options['params']['style_space'] : '') . '' . (!empty($options['params']['hcolor']) ? '&hcolor=' . $options['params']['hcolor'] : '') . '' . (!empty($options['params']['color']) ? '&color=' . $options['params']['color'] : '') . '';
-        $extras .= '<pre>'. print_r($v,true).'</pre>';
-        $return['SL'][] = sprintf('<iframe class="hearthis-iframe-widget" width="%s" height="%s" scrolling="no" frameborder="no" src="%s" allowtransparency></iframe>%s', $width, '450', $url, $extras);
-       }
-       */
+    if(isset($options['liststyle']) && $options['liststyle'] === 'single')
+    { 
+         foreach($url as $href) 
+         {
+              $return['SL'][] = sprintf('<div><iframe class="hearthis-iframe-widget" width="%s" height="%s" scrolling="no" frameborder="no" src="%s" allowtransparency></iframe></div>', $width, '145', $href);
+         }
     } 
-    $return['SL'][] = sprintf('<iframe class="hearthis-iframe-widget" width="%s" height="%s" scrolling="no" frameborder="no" src="%s" allowtransparency></iframe>', $width, $height, $url);
+    else {
+        $return['SL'][] = sprintf('<iframe class="hearthis-iframe-widget" width="%s" height="%s" scrolling="no" frameborder="no" src="%s" allowtransparency></iframe>', $width, $height, $url);
+    }
 
 
     if(isset($return['SL']))
@@ -370,6 +386,7 @@ include(__DIR__.'/httpful.phar');
   function register_hearthis_settings()
   {
 
+    register_setting('hearthis-settings', 'hearthis_liststyle');
     register_setting('hearthis-settings', 'hearthis_player_iframe');
     register_setting('hearthis-settings', 'hearthis_player_width');
     register_setting('hearthis-settings', 'hearthis_player_height');
