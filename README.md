@@ -18,13 +18,12 @@ The Plugin also supports optional parameters. By now these are width, height and
 The "params" parameter will pass the given options on to the player widget. The hearthis 
 player accepts the following parameter options:
 
-* hcolor = (hex color codes) will show the play button, waveform and selections in this color
 * theme  = you can choose between these 2 options __transparent__ (default) or __transparent_black__
 * width  = define the width of the widget (integer value or % value or empty string '', default is 100%)   
 * height           =  define the height of the widget (integer value or empty string '', default is 145)  
 * profile_height   =  define the height of the profile view (integer value or %, default is 400)  
 * multi_height     =  define the height of the playlist view (integer value or empty string '', default is 450)  
- color2           =  highlight color for the waveform (not set or a hex color string with prependig #)  
+* color2            =  highlight color for the waveform (not set or a hex color string with prependig #)  
 * color            =  button and passed time color for the waveform (not set or a hex color string with prependig #)  
 * cover            =  hides the cover img (values not set, 1 or 0)  
 * autoplay         =  starts with autoplay (values not set, 1 or 0)  
