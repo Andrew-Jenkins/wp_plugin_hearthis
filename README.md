@@ -6,7 +6,8 @@ Requirements
 ==========
 
  * [Wordpress][2], version >= 3.1.0  
- * [httpful][3] / [php http client][4]
+ * PHP 5.3+. 
+ * [httpful][3] / [php http client][4] already included, but you may update it by your self
 
 Description
 -----------------
