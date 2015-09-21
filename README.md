@@ -97,7 +97,8 @@ Changelog
 
 **version 0.6.3**
 
-+ add a shortcode option as a hook to parse all tracks from a playlist as single tracks 
++ add a shortcode option as a hook to parse all tracks from a playlist as single tracks  
++ add a readme.txt file for the wordpress plugin directory  
 
 **version 0.6.2**
 
