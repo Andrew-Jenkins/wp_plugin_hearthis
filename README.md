@@ -7,7 +7,7 @@ Requirements
 
  * [Wordpress][2], version >= 3.1.0  
  * PHP 5.3+. 
- * [httpful][3] / [php http client][4] already included, but you may update it by your self
+ * [httpful][3] or [www.phphttpclient.com][4] already included, but you may update it by your self
 
 Description
 -----------------
@@ -32,7 +32,8 @@ player accepts the following parameter options:
 * waveform         =  hide the waveform (values not set, 1 or 0)  
 * background       =  shows the background if set (values not set, 1 or 0, if is 1 the height is 400px)  
 * digitized_space      =  size of the spaces between the waveform blocks (integer, steps from 1 to 10, works only if style is set to 2)  
-* liststyle       =  only aviable on playlists and will also works only with 'single' as value 
+* liststyle       =  only aviable on playlists and will also works only with 'single' as value
+* css       =  only aviable on tracks and you can provide a link to an external css file to style your player
       
 
 Examples
@@ -59,7 +60,9 @@ Embeds a playlist or set with 400px height.
 I embeds a hook so if you have a playlist and do set the liststyle="single" option, it will parse all tracks from this set as single tracks.  
       `[hearthis liststyle="single"]https://hearthis.at/crecs/set/tbase-feat-charlotte-haining-oscar-michael-unspoken-words-ep/[/hearthis]`
 
-
+Load a external CSS file to style your individual hearthis player widget.
+      `[hearthis css="https://hearthis.at/css/sample_widget.css"]https://hearthis.at/djforce/baesser-forcesicht-dnbmix/[/hearthis]`
+      
 Installation
 ------------------
 
@@ -88,15 +91,16 @@ with a single Track
 with a playlist or set  
 ![playlist view](/hearthisat/screenshot_playlist.png "the widget with a playlist widget")  
 
-Changelog
+== Changelog ==
 ---------------
 
+= latest version is 0.6.4 =
 
-
-**latest version is 0.6.3**
+**version 0.6.4**
++ add a trailing slash to hearthis url if its not exists
++ added the option and param for the css property
 
 **version 0.6.3**
-
 + add a shortcode option as a hook to parse all tracks from a playlist as single tracks  
 + add a readme.txt file for the wordpress plugin directory  
 
