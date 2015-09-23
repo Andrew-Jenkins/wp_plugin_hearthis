@@ -1,35 +1,47 @@
 <?php
-/*
-Plugin Name: hearthis.at
-Plugin URI: http://wordpress.org/extend/plugins/hearthis-shortcode/
-Description: Converts hearthis urls with Wordpress Shortcuts from within your content to a hearthis.at widget. Example: [hearthis]http://hearthis.at/crecs/shawne-stadtfest-chemnitz-31082013/[/hearthis]
-Version: 0.6.5
-Author: Andreas Jenke | SIEs
-Author URI: http://so-ist.es
-License: GPLv2
 
-*/
+/**
+ * The plugin bootstrap file
+ *
+ * This file is read by WordPress to generate the plugin information in the plugin
+ * admin area. This file also includes all of the dependencies used by the plugin,
+ * registers the activation and deactivation functions, and defines a function
+ * that starts the plugin.
+ *
+ * @link              https://hearthis.at
+ * @since             0.6.3
+ * @package           hearthis.at
+ *
+ * @wordpress-plugin
+ * Plugin Name:       hearthis.at
+ * Contributors:      hearthis, dj_force
+ * Donate link:       https://hearthis.at/
+ * Plugin URI:        https://wordpress.org/plugins/hearthisat/
+ * Description:       The hearthis.at plugin allows you to integrate a player widget from <a href="https://hearthis.at/" target="_blank">hearthis.at</a> into your Blog by using a Wordpress shortcodes.  Example: [hearthis]http://hearthis.at/shawne/shawne-stadtfest-chemnitz-31082013/[/hearthis]
+ * Version:           0.6.5
+ * Requires at least: 3.1
+ * Tested up to:      4.3.1
+ * Author:            Benedikt Gro&szlig; & Andreas Jenke 
+ * Author URI:        https://hearthis.at/
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Stable tag:        trunk
+ * # Text Domain:       hearthis
+ * # Domain Path:       /languages    
+ */
+
 
 // Point to where you downloaded the phar
 include(__DIR__.'/httpful.phar');
 
 /**
- * @link    hearthis.at
- * @category  Plugin URI: http://wordpress.org/extend/plugins/hearthis-shortcode/
- * @internal  Converts hearthis WordPress shortcodes to a hearthis.at widget. Example: [hearthis]http://hearthis.at/shawne/shawne-stadtfest-chemnitz-31082013/[/hearthis]
+ * @link      hearthis.at
+ * @category  Plugin URI: https://wordpress.org/plugins/hearthisat/
+ * @internal  The hearthis.at plugin allows you to integrate a player widget from <a href="https://hearthis.at/ target="_blank">hearthis.at</a> into your Blog by using a Wordpress shortcodes.  Example: [hearthis]http://hearthis.at/shawne/shawne-stadtfest-chemnitz-31082013/[/hearthis]
  * @version:  0.6.5 
- * @author    Benedikt Gro&szlig; <contact@hearthis.com> | URL http://hearthis.at | upgraded by Andreas Jenke | SIEs 
+ * @author    Benedikt Gro&szlig; <contact@hearthis.com> | Andreas Jenke <http://so-ist.es/> 
  * @license:  GPLv2
 */
-
-## Original version: Benedikt Gro&szlig; <contact@hearthis.com>
-
-/*[hearthis width="250"]https://hearthis.at/djforce/baesser-forcesicht-dnbmix/[/hearthis]
-
-[hearthis height="350"]https://hearthis.at/djforce/[/hearthis]
-[hearthis height="350"]https://hearthis.at/crecs/set/tbase-feat-charlotte-haining-oscar-michael-unspoken-words-ep/[/hearthis]
-[hearthis height="350"]http://hearthis.at/set/51-7/[/hearthis]*/
-
 
 /* Register hearthis.at shortcode
 -------------------------------------------------------------------------- */
@@ -46,6 +58,7 @@ include(__DIR__.'/httpful.phar');
   function hearthis_shortcode($atts, $content = null) 
   {
 
+    // add trailing slash to the url if its doesn't have one
     $content = rtrim($content, '/') . '/';
     
     // Custom shortcode options
@@ -60,8 +73,6 @@ include(__DIR__.'/httpful.phar');
       parse_str(html_entity_decode($shortcode_options['params']), $shortcode_params);
 
     $shortcode_options['params'] = $shortcode_params;
-
-    #echo '<pre>'.print_r(hearthis_is_type($shortcode_options['url']) ,true).'</pre>';   
 
     $defaults = hearthis_code_params();
     $user_defs = $shortcode_options;
@@ -79,30 +90,30 @@ include(__DIR__.'/httpful.phar');
     else
     {
       $infos = hearthis_get_url_infos(trim($options['url']));  
-      // merge both for getting url
+      // merge infos array to options so that we will get all details to build our iframe url
       $url = hearthis_get_iframe_url(array_merge($options,$infos));
       $options['url'] = $url;
     } 
 
-    if( ($infos['type'] === 'set' || $infos['type'] === 'profile') && strtolower($options['liststyle']) !== 'single' )
+    if( ($infos['type'] === 'set' || $infos['type'] === 'profile') && (strtolower($options['liststyle']) !== 'single') )
     {  
       if( ! is_integer($options['height']) || $options['height'] <= 400 )
           $options['height'] = 450;
     }
-    elseif( ($infos['type'] === 'set' || $infos['type'] === 'profile') && strtolower($options['liststyle']) === 'single')
+    elseif( ($infos['type'] === 'set' || $infos['type'] === 'profile') && (strtolower($options['liststyle']) === 'single') )
     {  
       if( ! is_integer($options['height']) || $options['height'] <= 145 )
           $options['height'] = 145;
     }
    
-    if( $infos['type'] === 'track' && $options['background'] == 1)
+    if( $infos['type'] === 'track' && $options['background'] == 1 )
     {
         if( ! is_integer($options['height']) || $options['height'] <= 400 )
             $options['height'] = 400;
 
         $options['waveform'] = 0;
     }
-    elseif ( $infos['type'] === 'track' && $options['background'] != 1) 
+    elseif( $infos['type'] === 'track' && $options['background'] != 1 ) 
     {
         if( ! is_integer($options['height']) || $options['height'] <= 400 )
             $options['height'] = 145;
@@ -111,7 +122,7 @@ include(__DIR__.'/httpful.phar');
     }
 
 
-    if ($infos['type'] === 'track' && $options['waveform'] == 1) 
+    if( $infos['type'] === 'track' && $options['waveform'] == 1 ) 
     {
         if( ! is_integer($options['height']) || $options['height'] <= 145 )
             $options['height'] = 95;
@@ -119,11 +130,11 @@ include(__DIR__.'/httpful.phar');
         $options['background'] = 0;
     }
 
-    // fallback
+    // fallback for no height
     if( ! hearthis_is_integer($options['height']) )
         $options['height'] = 145;
 
-    
+    // fallback for with
     if(isset($options['width']) && ! hearthis_is_integer($options['width'])) 
       $options['width'] = '100%';
 
@@ -131,10 +142,13 @@ include(__DIR__.'/httpful.phar');
 
   }
 
-
+  /**
+   * get the plugin options with the default values
+   * @return array  $opts
+   */
   function hearthis_code_params()
   {
-    // deafults
+    // options with default value 
     $opts = array(
         'iframe' => get_option('hearthis_player_iframe', true),
         'width' => get_option('hearthis_player_width','100%'),
@@ -155,11 +169,21 @@ include(__DIR__.'/httpful.phar');
      return $opts;
   }
 
+ /**
+   * Decide if the input string is type of integer
+   * @param  string   $input
+   * @return boolean
+   */
   function hearthis_is_integer($input)
   {
     return preg_match('/^\d+$/', $input);
   }
 
+ /**
+   * Builds the iframe url based on the given options
+   * @param  array    $options
+   * @return string   $url
+   */
   function hearthis_get_iframe_url($options)
   {
     
@@ -171,7 +195,6 @@ include(__DIR__.'/httpful.phar');
     {  
       foreach ($options['setlist'] as $tune) 
       {
-        # code...
           $href = 'https://hearthis.at/embed/'.esc_attr($tune['tracks']).'/'.$options['theme'].'/?';
           $href .='hcolor='.hearthis_clear_color($options['color'], TRUE).
           '&color='.hearthis_clear_color($options['color2'], TRUE).
@@ -212,22 +235,22 @@ include(__DIR__.'/httpful.phar');
 
   /**
    * Decide if a url has a tracklist
-   * @param  {string}   $url
-   * @return {boolean}
+   * @param  string   $url
+   * @return string
    */
   function hearthis_is_type($url) 
   {
     if(is_string($url))
       $test = hearthis_get_url_types($url);
-    if(is_array())
     if(isset($test['type']))
       return $test['type'];
   }
 
+
   /**
-   * Decide if a url has a tracklist
-   * @param  {string}   $url
-   * @return {boolean}
+   * Get some infos about the given url
+   * @param  string   $url
+   * @return array|mixed
    */
   function hearthis_get_url_infos($url) 
   {
@@ -246,10 +269,11 @@ include(__DIR__.'/httpful.phar');
     return hearthis_get_url_types($url);
   }
 
+
   /**
-   * Decide if a url has a tracklist
-   * @param  {string}   $url
-   * @return {boolean}
+   * return the informations about the given url
+   * @param  string   $url
+   * @return array    $info
    */
   function hearthis_get_url_types($url) 
   {
@@ -313,8 +337,8 @@ include(__DIR__.'/httpful.phar');
 
   /**
    * Iframe widget embed code
-   * @param  {array}   $options  Parameters
-   * @return {string}            Iframe embed code
+   * @param  array   $options   Parameters
+   * @return string             iframe html code
    */
   function hearthis_iframe_widget($options) 
   {
@@ -433,7 +457,6 @@ include(__DIR__.'/httpful.phar');
     {
       // Add the color picker css file
       wp_enqueue_style( 'wp-color-picker' );
-
       // Include our custom jQuery file with WordPress Color Picker dependency
       wp_enqueue_script( 'wp-color-picker' );
     }
