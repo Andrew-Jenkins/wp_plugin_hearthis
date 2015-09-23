@@ -2,7 +2,7 @@
 
 This is a Wordpress Plugin which allows you to easily integrate a player widget for a track, set or playlist or a pofile from [hearthis.at][1] into your Wordpress Blog by using Shortcodes.
 
-Requirements
+== Requirements ==
 ==========
 
  * [Wordpress][2], version >= 3.1.0  
@@ -11,6 +11,7 @@ Requirements
     The library is already included, but you can update it by your self.
 
 == Description ==
+==========
 
 Use it in your blog post or pages by adding this Shortcode to your content:  
 `[hearthis]http://hearthis.at/LINK_TO_TRACK_SET_OR_ARTIST/[/hearthis]`.
@@ -37,6 +38,7 @@ The hearthis player accepts the following parameter options:
 * "css" = only aviable on tracks and you can provide a link to an external css file to style your player
 
 = Examples =
+------------
 
 Embed a single track without params.  
 `[hearthis]https://hearthis.at/shawne/shawne-pornbass-12-06042013-2300-0200-uhr/[/hearthis]`
@@ -63,6 +65,7 @@ Load a external CSS file to style your individual hearthis player widget.
 `[hearthis css="https://hearthis.at/css/sample_widget.css"]https://hearthis.at/djforce/baesser-forcesicht-dnbmix/[/hearthis]`
       
 == Installation ==
+==========
 
 Download the Plugin and extract the content. You should see a folder
 named hearthisat. Move or upload this folder to your Wordpress installation
@@ -72,14 +75,14 @@ After you done this go to your Wordpress Backend and activate the Plugin.
 Now you are ready to go and can insert the hearthis Shortcodes.
 
 == Frequently Asked Questions ==
-
+==========
 = whats about [httpfull][4] =
-
+----------
 It is already included and if you will update the library you can do this by [downloading a new version][5] from the developer site. You can overwrite the phar file without any problems.
 
 
 == Screenshots ==
-
+==========
 This is how the player widget will looks like:  
 
 1. with a single track ...   
@@ -93,7 +96,7 @@ This is how the player widget will looks like:
 
 
 == Changelog ==
-
+==========
 ** latest version is 0.6.4 **
 
 = version 0.6.4 =
@@ -108,8 +111,9 @@ This is how the player widget will looks like:
 * the plugin was originaly written by Benedikt Groß the founder of hearthis.at and this release fixes old or wrong options and bug so that you can use it with the latest wordpress version and you will have the full controll of all original hearthis paramsn 
 
 == special thanks ==
-
+==========
 = thx for using and supporting [hearthis.at][1] =
+----------
 
 [1]: https://hearthis.at/
 [2]: https://de.wordpress.org/
