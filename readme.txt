@@ -1,9 +1,12 @@
 == hearthis.at ===
 Contributors: hearthis, dj_force
-Tags: hearthis, html5, player, shortcode,
+Donate link: http://hearthis.at
+Tags: hearthis, html5, player, shortcode, widgets, music, sound
 Requires at least: 3.1.0
 Tested up to: 4.3.x
 Stable tag: trunk
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The hearthis.at Shortcode plugin allows you to integrate a player widget from hearthis.at into your Wordpress Blog by using a Wordpress shortcodes.
 
@@ -30,10 +33,10 @@ player accepts the following parameter options:
 * background       =  shows the background if set (values not set, 1 or 0, if is 1 the height is 400px)  
 * digitized_space  =  size of the spaces between the waveform blocks (integer, steps from 1 to 10, works only if style is set to 2)  
 * liststyle        =  only aviable on playlists and will also works only with 'single' as value 
-      
+* css               = only aviable on tracks and you can provide a link to an external css file to style your player 
 
-Examples
---------------
+
+== Examples ==
 
 Embed a single track without params.  
       `[hearthis]https://hearthis.at/shawne/shawne-pornbass-12-06042013-2300-0200-uhr/[/hearthis]`
@@ -56,6 +59,9 @@ Embeds a playlist or set with 400px height.
 I embeds a hook so if you have a playlist and do set the liststyle="single" option, it will parse all tracks from this set as single tracks.  
       `[hearthis liststyle="single"]https://hearthis.at/crecs/set/tbase-feat-charlotte-haining-oscar-michael-unspoken-words-ep/[/hearthis]`
 
+Embeds a CSS File to style your hearthis Widgets individually 
+      `[hearthis css="http://_LINK_TO_YOUR_CSS_FILE_"]https://hearthis.at/shawne/[/hearthis]`
+      
 == Installation ==
 
 Download the Plugin and extract the content. You should see a folder
@@ -67,6 +73,11 @@ Now you are ready to go and can insert the hearthis Shortcodes.
 
 == Frequently Asked Questions ==
 
+**whats about httpfull**
+
+It is already included and if you will update the library you can do this by downloading a new version from the developer site. You can overwrite the phar file without any problems.
+
+
 == Screenshots ==
 
 with a single Track  
@@ -75,16 +86,23 @@ with a single Track
 with a playlist or set  
 ![playlist view](/hearthisat/screenshot_playlist.png "the widget with a playlist widget")  
 
-
 1. This is how the player looks.
 
 == Changelog ==
-= latest version is 0.6.3 =
+
+**latest version is 0.6.5**
+
+= version 0.6.5 =
++ several bugfixes
++ added the option and param for the css property
+
+= version 0.6.4 =
++ add a trailing slash to hearthis url if its not exists
 
 = version 0.6.3 =
-
 + add a shortcode option as a hook to parse all tracks from a playlist as single tracks 
 
 = version 0.6.2 =
-
 + the plugin was originaly written by Benedikt GroÃŸ the founder of hearthis.at and this release fixes old or wrong options and bug so that you can use it with the latest wordpress version and you will have the full controll of all original hearthis params 
+
+
