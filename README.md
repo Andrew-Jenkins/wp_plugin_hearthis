@@ -89,15 +89,14 @@ Screenshots
 This is how the player widget will looks like:  
 
 1. with a single track ...   
-![Track view ](/hearthisat/screenshot_track.png "the hearthis widget with a single track")
+![Track view ](/hearthisat/screenshot_track.png "the view of a single track player")
 
 2. or with a playlist or set ...  
-![playlist view](/hearthisat/screenshot_playlist.png "the widget with a playlist widget")  
+![Playlist view](/hearthisat/screenshot_playlist.png "the view with a playlist widget")  
 
-<!---
 3. or with a artist profile  
-![profile view](/hearthisat/screenshot_profile.png "the widget with a artist widget")  
--->
+![Profile view](/hearthisat/screenshot_profile.png "the view with an artist widget")  
+
 
 Changelog
 ==========
@@ -108,6 +107,8 @@ Changelog
 _version 0.6.5_  
 * several bugfixes
 * added the option and param for the css property
+* added screenshot and update texts in the readme files
+* update the httpful phar archive to version 0.2.9
 
 _version 0.6.4_  
 * add a trailing slash to hearthis url if its not exists
@@ -118,6 +119,7 @@ _version 0.6.3_
 
 _version 0.6.2_  
 * the plugin was originaly written by Benedikt Groß the founder of hearthis.at. This version release fixes old or wrong options and bug so that you can use it with the latest wordpress version and you will have the full control of all original hearthis params 
+
 
 special thanks
 ==========

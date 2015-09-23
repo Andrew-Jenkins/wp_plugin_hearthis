@@ -81,11 +81,15 @@ It is already included and if you will update the library you can do this by dow
 
 == Screenshots ==
 
-with a single Track  
-![Track view ](/hearthisat/screenshot_track.png "the hearthis widget with a single track")
+1. with a single track ...   
+![Track view ](/hearthisat/screenshot_track.png "the view of a single track player")
 
-with a playlist or set  
-![playlist view](/hearthisat/screenshot_playlist.png "the widget with a playlist widget")  
+2. or with a playlist or set ...  
+![Playlist view](/hearthisat/screenshot_playlist.png "the view with a playlist widget")  
+
+3. or with a artist profile  
+![Profile view](/hearthisat/screenshot_profile.png "the view with an artist widget")  
+
 
 1. This is how the player looks.
 
@@ -96,6 +100,8 @@ with a playlist or set
 = version 0.6.5 =
 + several bugfixes
 + added the option and param for the css property
++ added screenshot and update texts in the readme files
++ update the httpful phar archive to version 0.2.9
 
 = version 0.6.4 =
 + add a trailing slash to hearthis url if its not exists
