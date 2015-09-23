@@ -3,7 +3,7 @@
 Plugin Name: hearthis.at
 Plugin URI: http://wordpress.org/extend/plugins/hearthis-shortcode/
 Description: Converts hearthis urls with Wordpress Shortcuts from within your content to a hearthis.at widget. Example: [hearthis]http://hearthis.at/crecs/shawne-stadtfest-chemnitz-31082013/[/hearthis]
-Version: 0.6.4
+Version: 0.6.5
 Author: Andreas Jenke | SIEs
 Author URI: http://so-ist.es
 License: GPLv2
@@ -17,7 +17,7 @@ include(__DIR__.'/httpful.phar');
  * @link    hearthis.at
  * @category  Plugin URI: http://wordpress.org/extend/plugins/hearthis-shortcode/
  * @internal  Converts hearthis WordPress shortcodes to a hearthis.at widget. Example: [hearthis]http://hearthis.at/shawne/shawne-stadtfest-chemnitz-31082013/[/hearthis]
- * @version:  0.6.4 
+ * @version:  0.6.5 
  * @author    Benedikt Gro&szlig; <contact@hearthis.com> | URL http://hearthis.at | upgraded by Andreas Jenke | SIEs 
  * @license:  GPLv2
 */
@@ -61,58 +61,69 @@ include(__DIR__.'/httpful.phar');
 
     $shortcode_options['params'] = $shortcode_params;
 
-    if(hearthis_url_is_type($shortcode_options['url']) === 'set')
-      $height = get_option('player_height',450);
-    else if (hearthis_url_is_type($shortcode_options['url']) === 'profile') 
-      $height = get_option('player_height',350);
-    else if (hearthis_url_is_type($shortcode_options['url']) === 'track') 
-      $height = get_option('player_height',145);
-    // else
-    //   $height = hearthis_get_option('player_height',145);
+    #echo '<pre>'.print_r(hearthis_is_type($shortcode_options['url']) ,true).'</pre>';   
 
-
-    // plugins default options
-    $plugin_options = array(
-      'iframe' => get_option('hearthis_player_iframe', true),
-      'width' => get_option('hearthis_player_width'),
-      'height' => ($height !== '' ) ? $height : 145,
-      'color' => get_option('hearthis_color'),
-      'hcolor' => get_option('hearthis_color2'),
-      'cover' => get_option('hearthis_cover', 0),
-      'autoplay' => get_option('hearthis_autoplay', 0),
-      'style' => get_option('hearthis_style', 1),
-      'theme' => get_option('hearthis_theme','transparent'),
-      'waveform' => get_option('hearthis_waveform'),
-      'background' => get_option('hearthis_background'),
-      'block_space' => get_option('hearthis_digitized_space', 1),
-      'block_size' => get_option('hearthis_digitized_size', 2),
-      'css' => get_option('hearthis_css', '')
-      );
-
-    #echo '<pre>'.print_r(hearthis_url_is_type($shortcode_options['url']) ,true).'</pre>';   
-
-    // get shortcode options
-    $options['params'] = array_merge(
-      $plugin_options,
-      $shortcode_options
-    );
-      // plugin params < options params
-    $options = array_merge(
-      $plugin_options,
-      hearthis_code_params()
-    );
+    $defaults = hearthis_code_params();
+    $user_defs = $shortcode_options;
+    $overwrite_defs = array_merge($defaults,$user_defs);
     
-    if(hearthis_url_is_type($shortcode_options['url']) === 'track' && $options['background'] == 1)
-    {
-      $options['height'] = 400;
-      $options['waveform'] = 1;
-    }
+    $options = $overwrite_defs;
+    $options['params'] = $shortcode_options['params'];
+
+    $url = '';
 
     if (!isset($options['url'])) 
-      return '';
-    else 
-      $options['url'] = trim($options['url']);
+    {
+      return $url;
+    }
+    else
+    {
+      $infos = hearthis_get_url_infos(trim($options['url']));  
+      // merge both for getting url
+      $url = hearthis_get_iframe_url(array_merge($options,$infos));
+      $options['url'] = $url;
+    } 
 
+    if( ($infos['type'] === 'set' || $infos['type'] === 'profile') && strtolower($options['liststyle']) !== 'single' )
+    {  
+      if( ! is_integer($options['height']) || $options['height'] <= 400 )
+          $options['height'] = 450;
+    }
+    elseif( ($infos['type'] === 'set' || $infos['type'] === 'profile') && strtolower($options['liststyle']) === 'single')
+    {  
+      if( ! is_integer($options['height']) || $options['height'] <= 145 )
+          $options['height'] = 145;
+    }
+   
+    if( $infos['type'] === 'track' && $options['background'] == 1)
+    {
+        if( ! is_integer($options['height']) || $options['height'] <= 400 )
+            $options['height'] = 400;
+
+        $options['waveform'] = 0;
+    }
+    elseif ( $infos['type'] === 'track' && $options['background'] != 1) 
+    {
+        if( ! is_integer($options['height']) || $options['height'] <= 400 )
+            $options['height'] = 145;
+
+        $options['waveform'] = 0;
+    }
+
+
+    if ($infos['type'] === 'track' && $options['waveform'] == 1) 
+    {
+        if( ! is_integer($options['height']) || $options['height'] <= 145 )
+            $options['height'] = 95;
+
+        $options['background'] = 0;
+    }
+
+    // fallback
+    if( ! hearthis_is_integer($options['height']) )
+        $options['height'] = 145;
+
+    
     if(isset($options['width']) && ! hearthis_is_integer($options['width'])) 
       $options['width'] = '100%';
 
@@ -123,26 +134,25 @@ include(__DIR__.'/httpful.phar');
 
   function hearthis_code_params()
   {
+    // deafults
     $opts = array(
-      'width' => hearthis_get_option('player_width'),
-      'color' => hearthis_get_option('hearthis_color'),
-      'hcolor' => hearthis_get_option('hearthis_color2'),
-      'cover' => hearthis_get_option('cover'),
-      'autoplay' => hearthis_get_option('autoplay'),
-      'style' => hearthis_get_option('style'),
-      'theme' => hearthis_get_option('theme'),
-      'waveform' => hearthis_get_option('waveform',NULL),
-      'background' => hearthis_get_option('background',NULL),
-      'block_space' => hearthis_get_option('digitized_space'),
-      'block_size' => hearthis_get_option('digitized_size'),
-      'theme'  => hearthis_get_option('theme'),
-      'style'  => hearthis_get_option('style'),
-      'liststyle'  => (hearthis_get_option('liststyle') === 'single') ?  'single' : NULL,
-      'css'  => hearthis_get_option('css')
-    );
-    foreach ($opts as $k => $value) 
-      $opts[$k] = $value;
-    return $opts;
+        'iframe' => get_option('hearthis_player_iframe', true),
+        'width' => get_option('hearthis_player_width','100%'),
+        'height' => get_option('hearthis_player_height',''),
+        'color' => get_option('hearthis_color','#333333'),
+        'color2' => get_option('hearthis_color2','#d81900'),
+        'cover' => get_option('hearthis_cover',0),
+        'autoplay' => get_option('hearthis_autoplay',0),
+        'style' => get_option('hearthis_style',1),
+        'theme' => get_option('hearthis_theme','transparent'),
+        'background' => get_option('hearthis_background',0),
+        'waveform' => get_option('hearthis_waveform'),
+        'digitized_space' => get_option('hearthis_digitized_space',1),
+        'digitized_size' => get_option('hearthis_digitized_size',2),
+        'liststyle'  => (get_option('hearthis_liststyle') === 'single') ?  'single' : NULL,
+        'css'  => get_option('hearthis_css','')
+      );
+     return $opts;
   }
 
   function hearthis_is_integer($input)
@@ -150,95 +160,77 @@ include(__DIR__.'/httpful.phar');
     return preg_match('/^\d+$/', $input);
   }
 
-  function hearthis_iframe_url($options,$info)
+  function hearthis_get_iframe_url($options)
   {
-    $url = 'https://hearthis.at';
-
-    if($info['type'] === 'set' && !isset($options['liststyle']) )
+    
+    if($options['type'] === 'set' && $options['liststyle'] !== 'single' )
     {
-      $url .= esc_attr($info['player_url']).'embed/?hcolor='.hearthis_clear_color(hearthis_get_option('color2')).'&color='.hearthis_clear_color(hearthis_get_option('color'));
-  
+      $url = 'https://hearthis.at'.esc_attr($options['player_url']).'embed/?hcolor='.hearthis_clear_color($options['color'], TRUE).'&color='.hearthis_clear_color($options['color2'], TRUE);
     }
-    if($info['type'] === 'set' && isset($options['liststyle']) &&  $options['liststyle'] === 'single' )
+    elseif($options['type'] === 'set' && $options['liststyle'] === 'single')
     {  
-      
-      foreach ($info['setlist'] as $tune) 
+      foreach ($options['setlist'] as $tune) 
       {
         # code...
-          $href = 'https://hearthis.at/embed/'.esc_attr($tune['tracks']).'/'.hearthis_get_option('theme').'/?';
-          $href .='hcolor='.hearthis_clear_color(hearthis_get_option('color2')).
-          '&color='.hearthis_clear_color(hearthis_get_option('color')).
-          '&style='.hearthis_get_option('style'). 
-          '&block_space='.hearthis_get_option('digitized_space').
-          '&block_size='.hearthis_get_option('digitized_size').
-          '&background='.hearthis_get_option('background',get_option('hearthis_background', 0)).
-          '&waveform='.hearthis_get_option('waveform').
-          '&cover='.hearthis_get_option('cover').
-          '&autoplay='.hearthis_get_option('autoplay');
-          //'&css='.hearthis_get_option('css');
+          $href = 'https://hearthis.at/embed/'.esc_attr($tune['tracks']).'/'.$options['theme'].'/?';
+          $href .='hcolor='.hearthis_clear_color($options['color'], TRUE).
+          '&color='.hearthis_clear_color($options['color2'], TRUE).
+          '&style='.$options['style']. 
+          '&block_space='.$options['digitized_space'].
+          '&block_size='.$options['digitized_size'].
+          '&background='.$options['background'].
+          '&waveform='.$options['waveform'].
+          '&cover='.$options['cover'].
+          '&autoplay='.$options['autoplay'];
+          //'&css='.$options['css'];
           $u[] = $href;
       }
       $url = $u;
-  
     } 
 
-    if($info['type'] === 'track')
+    if($options['type'] === 'track')
     {
-      $url = 'https://hearthis.at/embed/'.esc_attr($info['track_id']).'/'.hearthis_get_option('theme').'/?';
-      $url .='hcolor='.hearthis_clear_color(hearthis_get_option('color2')).
-      '&color='.hearthis_clear_color(hearthis_get_option('color')).
-      '&style='.hearthis_get_option('style'). 
-      '&block_space='.hearthis_get_option('digitized_space').
-      '&block_size='.hearthis_get_option('digitized_size').
-      '&background='.hearthis_get_option('background',get_option('hearthis_background', 0)).
-      '&waveform='.hearthis_get_option('waveform').
-      '&cover='.hearthis_get_option('cover').
-      '&autoplay='.hearthis_get_option('autoplay');
-      //'&css='.hearthis_get_option('css');
+      $url = 'https://hearthis.at/embed/'.esc_attr($options['track_id']).'/'.$options['theme'].'/?';
+      $url .='hcolor='.hearthis_clear_color($options['color'], TRUE).
+      '&color='.hearthis_clear_color($options['color2'], TRUE).
+      '&style='.$options['style']. 
+      '&block_space='.$options['digitized_space'].
+      '&block_size='.$options['digitized_size'].
+      '&background='.$options['background'].
+      '&waveform='.$options['waveform'].
+      '&cover='.$options['cover'].
+      '&autoplay='.$options['autoplay'];
+      //'&css='.$options['css'];
     }
 
-    if($info['type'] === 'profile')
-      $url = $options['url'].'embed/?hcolor='.hearthis_clear_color(hearthis_get_option('color2')).'&color='.hearthis_clear_color(hearthis_get_option('color'));
+    if($options['type'] === 'profile')
+      $url = $options['url'].'embed/?hcolor='.hearthis_clear_color($options['color'], TRUE).'&color='.hearthis_clear_color($options['color2'], TRUE);
 
     return $url;
 
   }
 
-
-  /**
-   * Plugin options getter
-   * @param  {string|array}  $option   Option name
-   * @param  {mixed}         $default  Default value
-   * @return {mixed}                   Option value
-   */
-  function hearthis_get_option($option, $default = '') 
-  {
-    $value = get_option('hearthis_' . $option);
-    return $value === '' ? $default : $value;
-  }
-
-
   /**
    * Decide if a url has a tracklist
    * @param  {string}   $url
    * @return {boolean}
    */
-  function hearthis_url_is_type($url) 
+  function hearthis_is_type($url) 
   {
-    $test = hearthis_get_type_from_url($url);
+    if(is_string($url))
+      $test = hearthis_get_url_types($url);
+    if(is_array())
     if(isset($test['type']))
       return $test['type'];
   }
 
-
   /**
    * Decide if a url has a tracklist
    * @param  {string}   $url
    * @return {boolean}
    */
-  function hearthis_bypass_set_url($url) 
+  function hearthis_get_url_infos($url) 
   {
-
     $parts = parse_url($url);
     $url_split = explode('/', $parts['path']);
 
@@ -251,7 +243,7 @@ include(__DIR__.'/httpful.phar');
       }
       unset($l);
     }
-    return hearthis_get_type_from_url($url);
+    return hearthis_get_url_types($url);
   }
 
   /**
@@ -259,9 +251,8 @@ include(__DIR__.'/httpful.phar');
    * @param  {string}   $url
    * @return {boolean}
    */
-  function hearthis_get_type_from_url($url) 
+  function hearthis_get_url_types($url) 
   {
-
     $parts = parse_url($url);
     $url_split = explode('/', $parts['path']);
     $info = array(
@@ -279,14 +270,8 @@ include(__DIR__.'/httpful.phar');
       $info['type'] = 'profile';
       $info['user'] = $url_split[1];
     }
-
-
-    if(count($url_split) > 2)
+    elseif(count($url_split) > 2)
     {
-      $response = \Httpful\Request::get('http://api-v2.hearthis.at'.$parts['path'])->send(); 
-      $info['user'] = $response->body->user->permalink;
-      $info['track_id'] = $response->body->id;
-
       for ($i=0; $i < count($url_split); $i++) 
       { 
         if(strtolower($url_split[$i]) === 'set')
@@ -295,31 +280,34 @@ include(__DIR__.'/httpful.phar');
         if( $i < 2 && $url_split[$i] !== 'set')
           $info['user'] = $url_split[$i];
       }
+    }
 
-      if (count($response->body) > 1 )
-      {
-        for ($j=0; $j < count($response->body); $j++) 
-        { 
-          if($info['type'] === 'set')
-          {
-            $info['setlist'][] = array(
-              'users' => $response->body[$j]->user->permalink,
-              'tracks' => $response->body[$j]->id
-              );
+    $response = \Httpful\Request::get('https://api-v2.hearthis.at'.$parts['path'])->send();
 
+    if(count($response->body) == 1)
+    {
+        if(isset($response->body->user->permalink) )
+            $info['user'] = $response->body->user->permalink;
+        if(isset($response->body->id) )
+            $info['track_id'] = $response->body->id;
+    }
+    elseif (count($response->body) > 1 )
+    {
+      for ($j=0; $j < count($response->body); $j++) 
+      { 
+        if($info['type'] === 'set')
+        {
+          $info['setlist'][] = array(
+            'users' => $response->body[$j]->user->permalink,
+            'tracks' => $response->body[$j]->id
+          );
           # unset($info['track_id']); //  = FALSE;
-
-            if( empty($info['user']) ) 
-            unset($info['user']); //  = FALSE;
-
         }
         // $user_ids[] = $response->body[$j]->user->permalink;
         // $track_ids[] = $response->body[$j]->id;
       }
     }
-  }
-
-  return $info;
+    return $info;
   }
 
 
@@ -330,36 +318,26 @@ include(__DIR__.'/httpful.phar');
    */
   function hearthis_iframe_widget($options) 
   {
-    $url = '';
-    $urlSource = parse_url($options['url']);
 
     $width = $options['width'];
     $height = $options['height'];
     $return = array();
+    $iframe = '';
+    $url = $options['url'];
     
-  $infos = hearthis_bypass_set_url($options['url']);   
-  $url = hearthis_iframe_url($options,$infos);
-
-    if(isset($options['liststyle']) && $options['liststyle'] === 'single')
+    if(is_array($url) && isset($options['liststyle']) && $options['liststyle'] === 'single')
     { 
-         foreach($url as $href) 
-         {
-              $return['SL'][] = sprintf('<div><iframe class="hearthis-iframe-widget" width="%s" height="%s" scrolling="no" frameborder="no" src="%s" allowtransparency></iframe></div>', $width, '145', $href);
-         }
+        foreach($url as $href) 
+          $return[] = sprintf('<div><iframe class="hearthis-iframe-widget" width="%s" height="%s" scrolling="no" frameborder="no" src="%s" allowtransparency></iframe></div>', $width, '145', $href);
     } 
-    else {
-        $return['SL'][] = sprintf('<iframe class="hearthis-iframe-widget" width="%s" height="%s" scrolling="no" frameborder="no" src="%s" allowtransparency></iframe>', $width, $height, $url);
+    else 
+        $return[] = sprintf('<iframe class="hearthis-iframe-widget" width="%s" height="%s" scrolling="no" frameborder="no" src="%s" allowtransparency></iframe>', $width, $height, $url);
+
+    for ($i=0; $i < count($return); $i++) 
+    { 
+      $iframe .= $return[$i];
     }
-
-
-    if(isset($return['SL']))
-    {
-      for ($i=0; $i < count($return['SL']); $i++) 
-      { 
-        $_return .= $return['SL'][$i];
-      }
-      return $_return;
-    } 
+    return $iframe;
   }
 
 
@@ -413,25 +391,38 @@ include(__DIR__.'/httpful.phar');
   /**
    * Function that will check if value is a valid HEX color.
    */
-  function hearthis_check_color( $value ) {
+  function hearthis_check_color( $value ) 
+  {
 
-    if ( preg_match( '/^#[a-f0-9]{6}$/i', $value ) ) { 
+    $v = strtolower($value);
+    if ( preg_match( '/^#[a-f0-9]{6}$/i', $v ) ) 
+    { 
       return true;
     }
-
     return false;
   }
+
   /**
    * Function that will check if value is a valid HEX color.
    */
-  function hearthis_clear_color( $value ) {
-
-    if(hearthis_check_color($value))
+  function hearthis_clear_color( $value , $convert = FALSE)
+  {
+    $check = hearthis_check_color($value);
+    if($check)
     {
-      $value = str_replace('#', '', $value);
+       if($convert === TRUE)
+          return substr($value, 1);
+        else
+          return $value;
     }
-
-    return $value;
+    else
+    {
+       $value = '#'.$value;
+       if(hearthis_check_color($value))
+            return $value;
+        else
+           return '';
+    }
   }
 
 
@@ -464,7 +455,7 @@ include(__DIR__.'/httpful.phar');
         <tr valign="top">
           <th scope="row">Current Default 'params'</th>
           <td><?php  echo http_build_query(array_filter(array(
-            'css'            => get_option('hearthis_css'),
+            'css'              => get_option('hearthis_css'),
             'width'            => get_option('hearthis_player_width'),
             'height'           => get_option('hearthis_player_height'),
             'profile_height'   => get_option('hearthis_player_profile_height'),
