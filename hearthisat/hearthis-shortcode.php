@@ -94,16 +94,18 @@ include(__DIR__.'/httpful.phar');
     // get shortcode options
     $options['params'] = array_merge(
       $plugin_options,
-      hearthis_code_params()
+      $shortcode_options
     );
       // plugin params < options params
     $options = array_merge(
       $plugin_options,
-      $shortcode_options
-      );
+      hearthis_code_params()
+    );
+    
     if(hearthis_url_is_type($shortcode_options['url']) === 'track' && $options['background'] == 1)
     {
       $options['height'] = 400;
+      $options['waveform'] = 1;
     }
 
     if (!isset($options['url'])) 
