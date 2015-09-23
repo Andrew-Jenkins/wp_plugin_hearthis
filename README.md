@@ -97,18 +97,22 @@ This is how the player widget will looks like:
 
 ==Changelog==
 ==========
-**latest version is 0.6.4**
+
+**latest version is 0.6.5**
+
+= version 0.6.5 =
+* several bugfixes
+* added the option and param for the css property
 
 = version 0.6.4 =
 * add a trailing slash to hearthis url if its not exists
-* added the option and param for the css property
 
 = version 0.6.3 =
 * add a shortcode option as a hook to parse all tracks from a playlist as single tracks  
 * add a readme.txt file for the wordpress plugin directory  
 
 = version 0.6.2 =
-* the plugin was originaly written by Benedikt Groß the founder of hearthis.at and this release fixes old or wrong options and bug so that you can use it with the latest wordpress version and you will have the full controll of all original hearthis paramsn 
+* the plugin was originaly written by Benedikt Groß the founder of hearthis.at. This version release fixes old or wrong options and bug so that you can use it with the latest wordpress version and you will have the full control of all original hearthis params 
 
 ==special thanks==
 ==========
