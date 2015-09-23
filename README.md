@@ -33,7 +33,8 @@ The hearthis player accepts the following parameter options:
 * "style" = style is an integer with option 1 or 2 
 * "waveform" = hide the waveform (values not set, 1 or 0)  
 * "background" = shows the background if set (values not set, 1 or 0, if is 1 the height is 400px)  
-* "digitized_space" = size of the spaces between the waveform blocks (integer, steps from 1 to 10, works only if style is set to 2)  
+* "digitized_space" = space between the waveform blocks (integer, steps from 1 to 10, works only if style is set to 2)  
+* "digitized_size" = size a the waveform blocks (integer, steps from 1 to 10, works only if style is set to 2)
 * "liststyle" = only aviable on playlists and will also works only with 'single' as value
 * "css" = only aviable on tracks and you can provide a link to an external css file to style your player
 
@@ -122,7 +123,6 @@ special thanks
 ==========
 
 **thx for using and supporting [hearthis.at][1]**
-
 
 [1]: https://hearthis.at/
 [2]: https://de.wordpress.org/
