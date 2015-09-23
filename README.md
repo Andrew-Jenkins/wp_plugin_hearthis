@@ -7,7 +7,8 @@ Requirements
 
  * [Wordpress][2], version >= 3.1.0  
  * PHP 5.3+. 
- * [httpful][3] or [www.phphttpclient.com][4] already included, but you may update it by your self
+ * [httpful][3] / also named as [phphttpclient][4].
+    The library is already included, but you can update it by your self.
 
 == Description ==
 
