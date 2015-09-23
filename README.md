@@ -104,18 +104,18 @@ Changelog
 **latest version is 0.6.5**
 ----------
 
-+ version 0.6.5
+_version 0.6.5_  
 * several bugfixes
 * added the option and param for the css property
 
-+ version 0.6.4 
+_version 0.6.4_  
 * add a trailing slash to hearthis url if its not exists
 
-+ version 0.6.3 
+_version 0.6.3_  
 * add a shortcode option as a hook to parse all tracks from a playlist as single tracks  
 * add a readme.txt file for the wordpress plugin directory  
 
-+ version 0.6.2 
+_version 0.6.2_  
 * the plugin was originaly written by Benedikt Groß the founder of hearthis.at. This version release fixes old or wrong options and bug so that you can use it with the latest wordpress version and you will have the full control of all original hearthis params 
 
 special thanks
