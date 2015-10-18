@@ -1,38 +1,28 @@
-# Overview
+=== hearthis.at ===
+Plugin Name:       hearthis.at
+Plugin URI:        https://wordpress.org/plugins/hearthisat/
+Description:       the hearthis.at plugin allows you to integrate a player widget from hearthis.at into your Wordpress Blog by using a Wordpress shortcodes.
+Tags: hearthis,    html5, player, shortcodes, music, widget
+Contributors:      hearthis, dj_force
+Donate link:       http://hearthis.at
+Requires at least: 3.1
+Tested up to:      4.3
+Stable tag:        stable
+Version:           1.0.0
+Author:            Andreas Jenke <ja@so-ist.es>
+Author URI:        http://so-ist.es/
+License:           GPL-2.0+
+License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+Text Domain:       hearthis
+Domain Path:       /languages 
+License:           GPL-2.0+ or later
+Tags:              hearthis, html5, player, sound, mp3, audio, shortcodes, music, widget
+License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
-This is a Wordpress Plugin which allows you to easily integrate a player widget for a track, set or playlist or an artist pofile from [hearthis.at][1] website into your Wordpress Blog by using Shortcodes.
-
-Requirements
-==========
-
- * [Wordpress][2], version >= 3.1.0  
- * PHP 5.3+. 
-
-   ###
-	=== hearthis.at ===
-	Plugin Name:       hearthis.at
-	Plugin URI:        https://wordpress.org/plugins/hearthisat/
-	Description:       the hearthis.at plugin allows you to integrate a player widget from hearthis.at into your Wordpress Blog by using a Wordpress shortcodes.
-	Tags: hearthis,    html5, player, shortcodes, music, widget
-	Contributors: 	   hearthis, dj_force
-	Donate link: 	   http://hearthis.at
-	Requires at least: 3.1
-	Tested up to: 	   4.3
-	Stable tag: 	   stable
-	Version:           1.0.0
-	Author:            Andreas Jenke <ja@so-ist.es>
-	Author URI:        http://so-ist.es/
-	License:           GPL-2.0+
-	License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
-	Text Domain:       hearthis
-	Domain Path:       /languages 
-	License: 	       GPL-2.0+ or later
-	License URI: 	   http://www.gnu.org/licenses/gpl-2.0.html
-   ###   
+The hearthis.at plugin allows you to integrate a player widget from hearthis.at into your Wordpress Blog by using a Wordpress shortcodes.
 
 
-Description
-==========
+== Description ==
 
 The hearthis.at plugin allows you to integrate a player widget from hearthis.at into your Wordpress Blog by using a Wordpress shortcodes.
 this is how it works:      
@@ -68,57 +58,56 @@ So these params could also being used because they will passed to the their new 
 *   `digitized_size` old name of the waveform block size (see block_size)
 *   `digitized_space` old name of the waveform block space (see block_space)
 
-Examples
-==========
+== Examples ==
 
 Embed a single track without params.   
-`[hearthis]https://hearthis.at/shawne/shawne-pornbass-12-06042013-2300-0200-uhr/[/hearthis]`
+      `[hearthis]https://hearthis.at/shawne/shawne-pornbass-12-06042013-2300-0200-uhr/[/hearthis]`
 
 Embed a playlist or set without params.   
-`[hearthis]https://hearthis.at/crecs/set/tbase-feat-charlotte-haining-oscar-michael-unspoken-words-ep/[/hearthis]`
+      `[hearthis]https://hearthis.at/crecs/set/tbase-feat-charlotte-haining-oscar-michael-unspoken-words-ep/[/hearthis]`
 
 Embed a user without color params and autostart.   
-`[hearthis color="#ff5c24" color="#33fd11" autostart="1"]http://hearthis.at/djforce/[/hearthis]`
+      `[hearthis color="#ff5c24" color="#33fd11" autostart="1"]http://hearthis.at/djforce/[/hearthis]`
 
 Embeds a track with a black theme and a bachground image (if set).   
-`[hearthis theme="transparent_black" background="1" ]https://hearthis.at/djforce/baesser-forcesicht-dnbmix/[hearthis]`
+      `[hearthis theme="transparent_black" background="1" ]https://hearthis.at/djforce/baesser-forcesicht-dnbmix/[hearthis]`
 
 Embeds a track player with 300px width and a green button color.   
-`[hearthis width="300" color="#33fd11"]https://hearthis.at/crec/maverick-krl-c-recordings-guestmix/[/hearthis]`
+      `[hearthis width="300" color="#33fd11"]https://hearthis.at/crec/maverick-krl-c-recordings-guestmix/[/hearthis]`
 
 Embeds a track player with 300px width and waveform and highlight color and the theme transparent_black.   
-`[hearthis width="300" params="color=33e040&color2=00ff00&theme=transparent_black"]https://hearthis.at/djforce/dj-force-is-breaking-the-habit-electrobreaks-bass-dubstep-mix-052014/[/hearthis]`
+      `[hearthis width="300" params="color=33e040&color2=00ff00&theme=transparent_black"]https://hearthis.at/djforce/dj-force-is-breaking-the-habit-electrobreaks-bass-dubstep-mix-052014/[/hearthis]`
   
 Embeds a playlist or set with 400px height.   
-`[hearthis height="400"]https://hearthis.at/set/51-7/[/hearthis]`
+      `[hearthis height="400"]https://hearthis.at/set/51-7/[/hearthis]`
   
 I embeds a hook so if you have a playlist and do set the liststyle="single" option, it will parse all tracks from this set as single tracks.  
-`[hearthis liststyle="single"]https://hearthis.at/crecs/set/tbase-feat-charlotte-haining-oscar-michael-unspoken-words-ep/[/hearthis]`  
+      `[hearthis liststyle="single"]https://hearthis.at/crecs/set/tbase-feat-charlotte-haining-oscar-michael-unspoken-words-ep/[/hearthis]
 
 
-Installation
-==========
+== Installation ==
 
 1. Download the Plugin and extract its content. You should see a folder named hearthisat or hearthis.   
 2. Upload the complete `hearthis` folder to the `/wp-content/plugins/` directory   
 3. Activate the plugin through the 'Plugins' menu in WordPress   
 4. Now you are ready to go and you can place `[hearthis]` Shortcodes to your pages or articles   
 
-Frequently Asked Questions
-==========
 
-What is about httpful ?
-----
 
-**With version 1.0.0 this was removed**
+== Frequently Asked Questions ==
+
+
+= What is about httpful ? =
+
+With version 1.0.0 this was removed.
 
 This was included till version 0.6.5. If you use a former version, 
 you can update this library by downloading the latest phar file 
 from the distributors [website][5]. The latest integrated version of [httpful][3] was v 0.2.19.
 For more informations please visit the [httpful developer site][4].
 
-Screenshots
-==========
+
+== Screenshots ==
 
 This is how the player widget could looks like:  
 
@@ -132,11 +121,9 @@ This is how the player widget could looks like:
 ![profile view](/hearthisat/screenshot_profile.png "the view of the widget for a profile") 
 
 
-Changelog
-==========
+== Changelog ==
 
-**1.0.0**
-
+= 1.0.0 =
 * removed the httpful Phar file so that this works completly without this  
 * now based on the [Plugin API](http://codex.wordpress.org/Plugin_API), [Coding Standards](http://codex.wordpress.org/WordPress_Coding_Standards), and [Documentation Standards](http://make.wordpress.org/core/handbook/inline-documentation-standards/php-documentation-standards/).
 * all classes, functions, and variables are documented so that you know what you need to be changed.
@@ -144,30 +131,24 @@ Changelog
 * added the latest hearthis.at API functions for the shortcode params
 * new backend/wp-admin Menu with color pickers  
 
-**0.6.5**
-
+= 0.6.5 =
 * several bugfixes and reformating code to object base programming standard 
-* added the `css` option / parameter added to the options page or as an shortcode param 
 
-**0.6.4**
-
+= 0.6.4 =
 * added a trailing slash to an URL if its not exist
 
-**0.6.3**
-
+= 0.6.3 =
 * added a Shortcodes option as a hook to transform a playlist url into single widgets for each track from this set instead of displaying a list view.
 
-**0.6.2**
+= 0.6.2 =
+* fix and reformating the original code which was written by Benedikt Groß the founder of hearthis.at a year ago. This release fixes deprecated or wrong options and removes errors so now you will be able to use this plugin in the latest wordpress version. Now you will have full control about the latest original hearthis parameters. 
 
-* fix and reformating the original code which was written by Benedikt Groß the founder of `hearthis.at` a year ago. This release fixes deprecated or wrong options and removes errors so now you will be able to use this plugin in the latest wordpress version. Now you will have full control about the latest original hearthis parameters. 
 
+== special thanks and credits ==
 
-special thanks and credits
-====
+= hearthis.at - music is our passion =
 
-**hearthis.at - music is our passion**
-
-***thx for using and supporting [hearthis.at][1]*** 
+**thx for using and supporting** [hearthis.at][1]
 
 [1]: https://hearthis.at/
 [2]: https://de.wordpress.org/
