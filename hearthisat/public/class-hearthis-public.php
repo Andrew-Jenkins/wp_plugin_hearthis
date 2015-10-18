@@ -18,7 +18,7 @@
  *
  * @package    Hearthis
  * @subpackage Hearthis/public
- * @author     Andreas Jenke <deraj@outlook.de>
+ * @author     Andreas Jenke <ja@so-ist.es>
  */
 
 
@@ -80,12 +80,7 @@ class Hearthis_Public {
         'css'
     ); 
 
-    private $themes = array(
-        'light' => 'transparent', 
-        'dark' => 'transparent_black'
-    );
 
-    
     /**
      * Initialize the class and set its properties.
      *
@@ -148,11 +143,13 @@ class Hearthis_Public {
         $atts['color'] = $this->hearthis_color($atts['color'], TRUE);
         // filter out all options the have value FALSE
         $atts = array_filter($atts);
+
+        var_dump($atts);
         $this->setVar('ATTS', $atts);
 
         // now set TYPE, USER and SETLIST
         $this->_url_info($atts, $as_single);
-        #  var_dump( $this->getVar());
+       # var_dump( $this->getVar());
         return $this->hearthis_iframe_widget();
     }
 
@@ -195,6 +192,15 @@ class Hearthis_Public {
     }
 
 
+    /**
+     *  gets all the url infos for the widget
+     *
+     * @since    1.0.0
+     * @access   protected
+     * @param    array     $atts        settings and attributes 
+     * @param    bool      $as_single   if a url should parsed as single tune this is true else false
+     * @return   void   
+     */
     protected function _url_info($atts, $as_single = FALSE)
     {
         $parts = array_filter(preg_split('/\\//', substr($this->get_url_path(),1,-1)));
@@ -242,6 +248,14 @@ class Hearthis_Public {
     }
 
 
+    /**
+     *  fallback to correct the old params
+     *
+     * @since    1.0.0
+     * @access   private
+     * @param    array     $atts        settings and attributes 
+     * @return   array     $atts        correct the old params
+     */
     private function get_fallback_atts( array $atts)
     {
         // first merge the old params string to atts 
@@ -249,8 +263,9 @@ class Hearthis_Public {
         {
             $params = array();
             parse_str(html_entity_decode($atts['params']), $params);
-            unset($atts['params']);
-            $atts = array_merge($atts,$params);     
+            $atts = array_merge($atts,$params); 
+            unset($atts['params']);   
+            #var_dump($params);
         }
 
         if(isset($atts['digitized_size'])) 
@@ -269,14 +284,16 @@ class Hearthis_Public {
             $atts['color'] = $atts['color2'];
             unset($atts['color2']);
         }
+       
         return $atts;
     }
 
    
     /**
-     * Iframe widget embed code
-     * @param  {array}   $options  Parameters
-     * @return {string}            Iframe embed code
+     * this creates the Iframe widget embed code
+     *
+     * @access public 
+     * @return string            Iframe embed code
      */
     public function hearthis_iframe_widget() 
     {
@@ -299,7 +316,6 @@ class Hearthis_Public {
 
         return $widget;
     }
-
 
 
    
@@ -357,7 +373,7 @@ class Hearthis_Public {
      * get the plugin setting with default values
      *
      * @since    1.0.0
-     * @access   private
+     * @access   protected
      * @return   array     $defaults
      */
     protected function get_hearthis_settings()
@@ -444,11 +460,19 @@ class Hearthis_Public {
         $theme = 'transparent/';
         if(isset($this->getVar('ATTS')['theme']) && $this->getVar('ATTS')['theme'] === 'transparent_black')
         {
-            $theme = 'transparent_black/';
+            /**
+            *
+            *@todo check why this is required to use the tranpsparent_black theme
+            *@author this doesn't work without this share param ? and with an given color
+            *        only the hcolor property is accepted by hearthis 
+            */
+            $theme = 'transparent_black/share/';
+            if(isset($this->getVar('ATTS')['color']))
+                $this->clearVar(array('ATTS'=> 'color'));
         }
         if(isset($this->getVar('ATTS')['background']) && $this->getVar('ATTS')['background'] == '1')
         {
-            $theme = '';
+            $theme = NULL;
         }
 
         switch ($this->getVar('TYPE')) 
@@ -458,7 +482,7 @@ class Hearthis_Public {
                 break;
 
             case 'SET':
-                $hrefs[] = $this->get_setlist_url($this->getVar('URL')).'embed/'.$this->build_options_string(array('color','hcolor'));
+                $hrefs[] = $this->getVar('URL').'embed/'.$this->build_options_string(array('color','hcolor'));
                 break;
 
             case 'AS_TRACKS':
@@ -486,13 +510,13 @@ class Hearthis_Public {
      *
      * @since    1.0.0
      * @access   private
-     * @param    string   $for           this can be NULL or LIST  
+     * @param    array    $for           these are the options
      * @return   string   $url_options   query string for the irframe url
      */
     private function build_options_string($for)
     {
-        
-		$params = array();
+        $style = NULL;
+        $params = array();
         for ($i=0; $i < count($for); $i++) 
         {   
             if(isset($this->getVar('ATTS')[$for[$i]]))
@@ -502,16 +526,66 @@ class Hearthis_Public {
             array_filter($params);
             #var_dump($params);
         }
-        if(count($params) > 1)
+        if(isset($params['style']))
+        {
+            $style ='style='.$params['style'].'&';
+            unset($params['style']);
+        }
+        if( ! empty($params))
         {
             $query = http_build_query($params);
-            return '?'.urldecode($query);
+
+            return urldecode('?'.$style.$query);
         }
         else
         {
-            return NULL;
+            return $style;
         }       
     }
+
+    /**
+     *
+     * removes the key value pair of an array 
+     * if the key was not found it return FALSE
+     *
+     * @author      NOT USED 
+     * @since    1.0.0
+     * @access   private
+     * @return   bool|array   
+     */
+    private function array_remove()
+    {
+        if ($stack = func_get_args()) 
+        {
+            $input = array_shift($stack);
+            foreach ($stack as $key) 
+            {
+                unset($input[$key]);
+            }
+            return $input;
+        }
+        return FALSE;
+    }
+
+    /**
+     * unshifts a value with a named key in the given array
+     * its like array_unshift but for assoc array types
+     *
+     * @author      NOT USED 
+     * @since    1.0.0
+     * @access   private
+     * @param    array    $arr           the array where to unshift 
+     * @param    array    $key           the keaýname to push
+     * @param    array    $val           the value to push
+     * @return   array   
+     */
+
+    private function array_unshift_assoc(&$arr, $key, $val) 
+    { 
+        $arr = array_reverse($arr, true); 
+        $arr[$key] = $val; 
+        return array_reverse($arr, true); 
+    } 
 
 
     /**
@@ -664,6 +738,8 @@ class Hearthis_Public {
      * if key is an object we will covert it to an array
      * the given array/object keys will passed to the vars
      *
+     * @since    1.0.0
+     * @access   private
      * @param mixed $key key could be a string, array or object 
      * @param string $value Value
      */
@@ -687,6 +763,8 @@ class Hearthis_Public {
     /**
      * checks if a var in the vars has been set.
      *
+     * @since    1.0.0
+     * @access   private
      * @param string $key Key
      * @return bool Variable status
      */
@@ -701,6 +779,8 @@ class Hearthis_Public {
      * if a key is given it will return the entry from vars or NULL
      * if the key doesn't exist
      *
+     * @since    1.0.0
+     * @access   private
      * @param string $key Key
      * @return mixed
      */
@@ -716,7 +796,10 @@ class Hearthis_Public {
      * if an array is given it unset all vars from 
      * given array_keys if they exists 
      *
+     * @since    1.0.0
+     * @access   private
      * @param string|array $key key could be null or a string or an assco array 
+     * @return void
      */
     private function clearVar($key = null) 
     {
@@ -730,10 +813,10 @@ class Hearthis_Public {
         }
         elseif(is_array($key))
         {
-            foreach ($key as $k) 
+            foreach ($key as $k => $v) 
             {
-                if(isset($this->vars[$k]))
-                    unset($this->vars[$k]);
+                if(isset($this->vars[$k][$v]))
+                    unset($this->vars[$k][$v]);
             }
         }
     }
@@ -758,11 +841,15 @@ class Hearthis_Public {
 
 
     /**
-    * Send a POST requst using cURL
-    * @param string $url to request
-    * @param array $post values to send
-    * @return string
-    */
+     * Send a POST requst using cURL
+     *
+     *
+     * @since    1.0.0
+     * @access   protected
+     * @param string $url to request
+     * @param array $post values to send
+     * @return string
+     */
     private function curl_post($url, array $post = array())
     {
         $options = array(
@@ -812,13 +899,14 @@ class Hearthis_Public {
 
 
     /**
-    * Send a GET requst using cURL
-    *
-    * @param string $url to request
-    * @param array $get values to send
-    * @param array $options for cURL
-    * @return string
-    */
+     * Send a GET requst using cURL
+     *
+     * @since    1.0.0
+     * @access   protected
+     * @param string $url to request
+     * @param array $get values to send but ignored here
+     * @return string
+     */
     protected function curl_get($url, array $get = array())
     {
         $options = array( 
