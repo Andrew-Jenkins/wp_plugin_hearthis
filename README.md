@@ -129,13 +129,13 @@ Screenshots
 
 This is how the player widget could looks like:  
 
-1. with a single Track 
+1. with a single Track    
 ![track view ](/hearthisat/screenshot_track.png "the view of the hearthis widget with a single track")
 
-2. ... or with a playlist or set 
+2. ... or with a playlist or set    
 ![playlist view](/hearthisat/screenshot_playlist.png "the view of the widget for a playlist") 
 
-3. ... or if the url is a profile
+3. ... or if the url is a profile    
 ![profile view](/hearthisat/screenshot_profile.png "the view of the widget for a profile") 
 
 
