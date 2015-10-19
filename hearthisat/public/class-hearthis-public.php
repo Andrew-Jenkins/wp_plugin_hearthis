@@ -143,7 +143,10 @@ class Hearthis_Public {
         $atts['color'] = $this->hearthis_color($atts['color'], TRUE);
         // filter out all options the have value FALSE
         $atts = array_filter($atts);
+<<<<<<< HEAD
 
+=======
+>>>>>>> adba1ef1d15efbd6bb8817e022a851456fe599d9
         $this->setVar('ATTS', $atts);
 
         // now set TYPE, USER and SETLIST
