@@ -90,9 +90,10 @@ class Hearthis_Public {
      */
     public function __construct( $plugin_name, $version ) {
 
-        add_shortcode( 'hearthis', array( $this, 'hearthis_shortcode_function' ) );
         $this->plugin_name = $plugin_name;
         $this->version = $version;
+
+        add_shortcode( 'hearthis', array( $this, 'hearthis_shortcode_function' ) );
     }
 
     /**
@@ -143,14 +144,13 @@ class Hearthis_Public {
         $atts['color'] = $this->hearthis_color($atts['color'], TRUE);
         // filter out all options the have value FALSE
         $atts = array_filter($atts);
-
-        var_dump($atts);
         $this->setVar('ATTS', $atts);
-
         // now set TYPE, USER and SETLIST
         $this->_url_info($atts, $as_single);
-       # var_dump( $this->getVar());
-        return $this->hearthis_iframe_widget();
+        
+        # var_dump( $this->getVar());
+        $widget = $this->hearthis_iframe_widget();
+        return do_shortcode($widget);
     }
 
 
@@ -289,6 +289,7 @@ class Hearthis_Public {
     }
 
    
+    
     /**
      * this creates the Iframe widget embed code
      *
@@ -300,22 +301,23 @@ class Hearthis_Public {
         $urls = $this->get_iframe_urls();
         $width = $this->get_player_width();
         $height = $this->get_player_height();
-        $widget = '<div class="hearthis-widget">'."\n";
         $return = array();
-
+     
         foreach($urls as $href) 
         {
-            $return[] = sprintf('<div class="hearthis-iframe"><iframe width="%s" height="%s" scrolling="no" frameborder="no" src="%s" allowtransparency></iframe></div>'."\n", $width, $height, $href);
+            $return[] = sprintf('<div class="hearthis-widget"><iframe class="hearthis-iframe" width="%s" height="%s" scrolling="no" frameborder="no" src="%s" allowtransparency></iframe></div>'."\n", $width, $height, $href);
         }
 
+        $widget = '';
         for ($i=-1; $i < count($return); $i++) 
         { 
-            $widget .= $return[$i];
+            $widget .= $return[$i]."\n";
         }
-        $widget .= '</div">'."\n";
 
         return $widget;
     }
+
+
 
 
    
@@ -534,7 +536,6 @@ class Hearthis_Public {
         if( ! empty($params))
         {
             $query = http_build_query($params);
-
             return urldecode('?'.$style.$query);
         }
         else
