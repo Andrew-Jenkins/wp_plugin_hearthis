@@ -8,7 +8,7 @@ Requirements
  * [Wordpress][2], version >= 3.1.0  
  * PHP 5.3+. 
 
-   ###
+###
 	=== hearthis.at ===
 	Plugin Name:       hearthis.at
 	Plugin URI:        https://wordpress.org/plugins/hearthisat/
@@ -24,7 +24,7 @@ Requirements
 	Author URI:        http://so-ist.es/
 	License:           GPL-2.0+
 	License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
-   ###   
+###
 
 
 Description
