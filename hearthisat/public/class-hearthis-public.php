@@ -206,7 +206,8 @@ class Hearthis_Public {
         $parts = array_filter(preg_split('/\\//', substr($this->get_url_path(),1,-1)));
         $this->setVar('TYPE','TRACK');
         $api_url = $this->build_api_url($this->getVar('URL'));
-
+        $num_parts = count($parts);
+        
         if(count($parts) === 1) 
         {
             $this->setVar('TYPE','PROFILE');
@@ -217,6 +218,12 @@ class Hearthis_Public {
                 $api_url = self::HEARTHIS_API_URL.'/'.$parts[0].'/?type=tracks&count=50';
             }
         }
+        else if($num_parts === 2 && $parts[0] == "embed")
+	    {
+	        $urls[] = $parts[1];
+            $this->setVar('SETLIST', $urls);
+	        return;
+	    }
 
         if(strtolower($parts[0]) === 'set') 
         {
