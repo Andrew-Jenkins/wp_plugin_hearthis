@@ -18,7 +18,7 @@
  * Plugin URI:        https://wordpress.org/plugins/hearthisat/
  * Tags:              hearthis, html5, player, sound, mp3, audio, shortcodes, music, widget
  * Description:       The hearthis.at plugin allows you to integrate a player widget from <a href="https://hearthis.at/" target="_blank">hearthis.at</a> into your Blog by using a Wordpress shortcodes.  Example: [hearthis]http://hearthis.at/shawne/shawne-stadtfest-chemnitz-31082013/[/hearthis]
- * Version:           1.0.1
+ * Version:           1.0.2
  * Requires at least: 3.1
  * Tested up to:      4.3.2
  * Author:            Andreas Jenke / Benedikt Gro&szlig;

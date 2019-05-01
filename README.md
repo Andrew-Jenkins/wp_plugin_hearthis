@@ -142,10 +142,17 @@ This is how the player widget could looks like:
 Changelog
 ==========
 
+
+**1.0.2**
+
+* small bug fix with height option from shortcode 
+* bugfix responseBody check 
+
+
 **1.0.1**
 
 * minor bug fix with theme transparent_black option that doens't work, if you use the transparent_black we have to remove the value of the color and to add the share path to the irframe url? maybe it's a lil' bug at hearthis.at. I'll check this later. Right now this work's for all wordpress users. 
-* changed some php and readme documenations
+* changed some php and readme documentations
 
 
 **1.0.0**
