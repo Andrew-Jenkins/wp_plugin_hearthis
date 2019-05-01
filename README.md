@@ -19,7 +19,7 @@ Requirements
 	Requires at least: 3.1
 	Tested up to:      4.3.2
 	Stable tag:        stable
-	Version:           1.0.1
+	Version:           1.0.2
 	Author:            Andreas Jenke <ja@so-ist.es>
 	Author URI:        http://so-ist.es/
 	License:           GPL-2.0+
