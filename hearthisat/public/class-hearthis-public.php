@@ -727,12 +727,11 @@ class Hearthis_Public {
         $response = $this->curl_get($url);
         $responseBody = json_decode($response);
         $urls = array();
-        if(isset($responseBody->id))
+        if(is_object($responseBody) && ( property_exists($responseBody, 'id') OR isset($responseBody->id) ) )
         {
             $urls[] = $responseBody->id;
         }
-        // else { }
-        
+	    
         $this->setVar('SETLIST', $urls);
     }
 
