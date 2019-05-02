@@ -8,7 +8,7 @@ Donate link:       https://hearthis.at/
 Requires at least: 3.1
 Tested up to:      4.3.2
 Stable tag:        stable
-Version:           1.0.1
+Version:           1.0.2
 Author:            Andreas Jenke <ja@so-ist.es>
 Author URI:        http://so-ist.es/
 License:           GPL-2.0+
@@ -126,6 +126,10 @@ This is how the player widget could looks like:
 
 
 == Changelog ==
+
+= 1.0.2 =
+* small bug fix with height option from shortcode 
+* bugfix responseBody check 
 
 = 1.0.1 =
 * minor bug fix with theme transparent_black option that doens't work, if you use the transparent_black we have to remove the value of the color and to add the share path to the irframe url? maybe it's a lil' bug at hearthis.at. I'll check this later. Right now this work's for all wordpress users. 

@@ -206,7 +206,8 @@ class Hearthis_Public {
         $parts = array_filter(preg_split('/\\//', substr($this->get_url_path(),1,-1)));
         $this->setVar('TYPE','TRACK');
         $api_url = $this->build_api_url($this->getVar('URL'));
-
+        $num_parts = count($parts);
+        
         if(count($parts) === 1) 
         {
             $this->setVar('TYPE','PROFILE');
@@ -217,6 +218,12 @@ class Hearthis_Public {
                 $api_url = self::HEARTHIS_API_URL.'/'.$parts[0].'/?type=tracks&count=50';
             }
         }
+        else if($num_parts === 2 && $parts[0] == "embed")
+	    {
+	        $urls[] = $parts[1];
+            $this->setVar('SETLIST', $urls);
+	        return;
+	    }
 
         if(strtolower($parts[0]) === 'set') 
         {
@@ -459,8 +466,9 @@ class Hearthis_Public {
     private function get_iframe_urls()
     {
         $hrefs = array();
+        $atts = $this->getVar('ATTS');
         $theme = 'transparent/';
-        if(isset($this->getVar('ATTS')['theme']) && $this->getVar('ATTS')['theme'] === 'transparent_black')
+        if(isset($atts['theme']) && $atts['theme'] === 'transparent_black')
         {
             /**
             *
@@ -469,10 +477,10 @@ class Hearthis_Public {
             *        only the hcolor property is accepted by hearthis 
             */
             $theme = 'transparent_black/share/';
-            if(isset($this->getVar('ATTS')['color']))
+            if(isset($atts['color']))
                 $this->clearVar(array('ATTS'=> 'color'));
         }
-        if(isset($this->getVar('ATTS')['background']) && $this->getVar('ATTS')['background'] == '1')
+        if(isset($atts['background']) && $atts['background'] == '1')
         {
             $theme = NULL;
         }
@@ -662,15 +670,16 @@ class Hearthis_Public {
      */
     private function get_player_height()
     {
+        $atts = $this->getVar('ATTS');
         // set default
-        if(isset($this->getVar('ATTS')['height']))
+        if(isset($atts['height']))
         {
             // get height from options ând check if is numeric
-            $user_height = str_replace(array('px','em','%'),'', $this->getVar('ATTS')['height']);
+            $user_height = str_replace(array('px','em','%'),'', $atts['height']);
             if(is_numeric($user_height))
             {
                 // set to integer
-                $heigth = (int) $user_height;
+                $height = (int) $user_height;
             }
         }
         else
@@ -718,17 +727,11 @@ class Hearthis_Public {
         $response = $this->curl_get($url);
         $responseBody = json_decode($response);
         $urls = array();
-        if(count($responseBody) > 1)
-        {
-            foreach ($responseBody as $key => $value) 
-            {
-                $urls[] = $responseBody[$key]->id;
-            }
-        }
-        else
+        if(isset($responseBody->id))
         {
             $urls[] = $responseBody->id;
         }
+        // else { }
         
         $this->setVar('SETLIST', $urls);
     }
